@@ -1,6 +1,10 @@
 name: flake8
 run-name: Code style check
-on: [push, pull_request, fork]
+on:
+  push:
+    - master
+  pull_request:
+    - master
 jobs:
   codestyle-check:
     runs-on: ubuntu-latest
