@@ -2,9 +2,13 @@ name: flake8
 run-name: Code style check
 on:
   push:
-    - master
+    branches:
+      - master
   pull_request:
-    - master
+    branches:
+      - master
+    paths:
+      - source/**.py
 jobs:
   codestyle-check:
     runs-on: ubuntu-latest
