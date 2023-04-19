@@ -1,11 +1,6 @@
 name: flake8
 run-name: Code style check
-on:
-  push:
-    - master
-  pull_request:
-    - master
-  fork:
+on: [push, pull_request, fork]
 jobs:
   runs-on: ubuntu-latest
   steps:
