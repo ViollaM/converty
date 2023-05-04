@@ -12,6 +12,7 @@ file.close()
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
+
 def signal_handler(signum, frame):
     if signum == signal.SIGTERM:
         os.exit()
@@ -43,7 +44,7 @@ async def handle_make(msg: types.Message):
         return
     await msg.answer("Processing...")
     images = [Image.open(os.path.join(path, f)) for f in uploadedFiles]
-    images[0].save(pdf_path, save_all=True, append_images = images[1:])
+    images[0].save(pdf_path, save_all=True, append_images=images[1:])
     output = open(pdf_path, "rb")
     await bot.send_document(msg.chat.id, output)
     output.close()
