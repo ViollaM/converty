@@ -10,7 +10,9 @@ supported_pdf_converter_formats = [".png", ".jpeg", ".jpg"]
 def convert_images_to_pdf(user_id: str) -> str:
     path = f"storage/{user_id}"
     uploaded_files = [f for f in os.listdir(path)
-                     if os.path.isfile(os.path.join(path, f)) and os.path.splitext(os.path.join(path, f))[1].lower() in supported_pdf_converter_formats]
+                      if os.path.isfile(os.path.join(path, f))
+                      and os.path.splitext(os.path.join(path, f))[1].lower()
+                      in supported_pdf_converter_formats]
     if len(uploaded_files) == 0:
         raise ValueError("Oops, looks like no files uploaded or they have wrong format for this operation")
     pdf_path = os.path.join(path, "output.pdf")
@@ -22,8 +24,8 @@ def convert_images_to_pdf(user_id: str) -> str:
 def convert_pdf_to_images(user_id: str) -> str:
     path = f"storage/{user_id}"
     uploaded_files = [f for f in os.listdir(path)
-                      if os.path.isfile(os.path.join(path, f)) and
-                      os.path.splitext(os.path.join(path, f))[1].lower() == ".pdf"]
+                      if os.path.isfile(os.path.join(path, f))
+                      and os.path.splitext(os.path.join(path, f))[1].lower() == ".pdf"]
     if len(uploaded_files) == 0:
         raise ValueError("No files uploaded")
     if len(uploaded_files) > 1:
@@ -54,8 +56,8 @@ def convert_files_to_zip(user_id: str) -> str:
 def convert_zip_to_files(user_id: str) -> str:
     path = f"storage/{user_id}"
     uploaded_files = [f for f in os.listdir(path)
-                      if os.path.isfile(os.path.join(path, f)) and
-                      os.path.splitext(os.path.join(path, f))[1].lower() == ".zip"]
+                      if os.path.isfile(os.path.join(path, f))
+                      and os.path.splitext(os.path.join(path, f))[1].lower() == ".zip"]
     if len(uploaded_files) == 0:
         raise ValueError("No files uploaded")
     if len(uploaded_files) > 1:
@@ -71,8 +73,8 @@ def remove_files(user_id: str, only_images=False):
     path = f"storage/{user_id}"
     if only_images:
         uploaded_files = [f for f in os.listdir(path)
-                          if os.path.isfile(os.path.join(path, f)) and
-                          os.path.splitext(os.path.join(path, f))[1].lower() in supported_pdf_converter_formats]
+                          if os.path.isfile(os.path.join(path, f))
+                          and os.path.splitext(os.path.join(path, f))[1].lower() in supported_pdf_converter_formats]
         uploaded_files.append("output.pdf")
     else:
         uploaded_files = [f for f in os.listdir(path)

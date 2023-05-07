@@ -4,7 +4,6 @@ import shutil
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
-from PIL import Image
 
 from converter import (
     convert_images_to_pdf,
@@ -91,7 +90,7 @@ async def handle_make(msg: types.Message):
         remove_files(user_id, only_images)
     except ValueError as e:
         await msg.answer(str(e))
-    except: # noqa: E722
+    except:  # noqa: E722
         await msg.answer("Something went wrong, please try again later")
 
 
@@ -123,10 +122,13 @@ async def handle_help(msg: types.Message):
             match text[1]:
                 case "make":
                     message = (f"Supported formats: {', '.join(map(str, supported_conversion_formats))}\n\n"
-                               f"Pdf file will be compiled from files of the following types: {', '.join(map(str, supported_pdf_converter_formats))}, the remaining files will be ignored, but will remain among the uploaded ones.\n\n"
+                               "Pdf file will be compiled from files of the following types: "
+                               f"{', '.join(map(str, supported_pdf_converter_formats))}, the remaining files "
+                               "will be ignored, but will remain among the uploaded ones.\n\n"
                                "Zip file will be compiled from all uploaded files.\n\n"
                                "Unzip option can only unzip one file at a time, will return all files from archive.\n\n"
-                               "Images option can only extract images from one pdf file at a time, will return all pages as png files.")
+                               "Images option can only extract images from one pdf file at a time, "
+                               "will return all pages as png files.")
                 case "start":
                     message = "Launching bot"
                 case "stop":
