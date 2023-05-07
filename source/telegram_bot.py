@@ -5,11 +5,9 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from PIL import Image
 
-from converter import convert_images_to_pdf, convert_images_to_zip, remove_files
+from converter import convert_images_to_pdf, convert_files_to_zip, remove_files
 
-file = open(".secret_token", mode='r')
-TOKEN = file.read()[:-1]
-file.close()
+TOKEN="6076012909:AAEyomAuTcsaD6B5z6wavk-U72cM_Kd1vdQ"
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
@@ -45,19 +43,23 @@ async def handle_make(msg: types.Message):
         await msg.answer("Oops, this format is not supported yet 😔️️️\n"
                          f"Choose supported one from: {', '.join(map(str, supported_conversion_formats))}")
     user_id = msg.from_user.id
+    only_images = False
     try:
         match format:
             case "pdf":
                 file_path = convert_images_to_pdf(user_id)
+                only_images = True
             case "zip":
-                file_path = convert_images_to_zip(user_id)
+                file_path = convert_files_to_zip(user_id)
         
         output = open(file_path, "rb")
         await bot.send_document(msg.chat.id, output)
         output.close()
-        remove_files(user_id)
-    except Exception as e:
+        remove_files(user_id, only_images)
+    except ValueError as e:
         await msg.answer(str(e))
+    except:
+        await msg.answer("Something went wrong, please try again later")
 
 
 @dp.message_handler(commands=['reset'])
@@ -99,7 +101,18 @@ async def handle_photo_message(msg: types.Message):
     downloaded_file = await bot.download_file(file_info.file_path)
     with open(f"storage/{msg.from_user.id}/{file_ID}.png", "wb") as new_file:
         new_file.write(downloaded_file.getvalue())
-    await msg.answer("OK!")
+    await msg.answer("Image uploaded!")
+
+
+@dp.message_handler(content_types=['document'])
+async def handle_document_message(msg: types.Message):
+    file = msg.document
+    file_ID = file.file_id
+    file_info = await bot.get_file(file_ID)
+    downloaded_file = await bot.download_file(file_info.file_path)
+    with open(f"storage/{msg.from_user.id}/{file_ID}={file.file_name}", "wb") as new_file:
+        new_file.write(downloaded_file.getvalue())
+    await msg.answer("Document uploaded!")
 
 
 if __name__ == '__main__':
