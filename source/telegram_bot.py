@@ -5,13 +5,17 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from PIL import Image
 
-from converter import convert_images_to_pdf, convert_files_to_zip, remove_files
+from converter import convert_images_to_pdf, convert_files_to_zip, remove_files, supported_pdf_converter_formats
 
-TOKEN="6076012909:AAEyomAuTcsaD6B5z6wavk-U72cM_Kd1vdQ"
+file = open(".secret_token", mode='r')
+TOKEN = file.read()[:-1]
+file.close()
+
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
 supported_conversion_formats = ["pdf", "zip"]
+
 
 def signal_handler(signum, frame):
     if signum == signal.SIGTERM:
@@ -24,12 +28,14 @@ async def handle_start(msg: types.Message):
         os.mkdir(f"storage/{msg.from_user.id}", mode=0o755)
     except FileExistsError:
         pass
-    await msg.answer(f"Hello, dear {msg.from_user.first_name}😊\n"
-                     "My name is Converty, I am file converter bot 😎\n")
+    await msg.answer(f"Hi, dear {msg.from_user.first_name},"
+                     "my name is Converty and I am file converter bot 😎\n"
+                     "Use /help command to find out what I can do\n")
 
 
 @dp.message_handler(commands=['stop'])
 async def handle_stop(msg: types.Message):
+    os.remove(f"storage/{msg.from_user.id}")
     await msg.answer(f"Goodbye, dear {msg.from_user.first_name}")
 
 
@@ -64,12 +70,8 @@ async def handle_make(msg: types.Message):
 
 @dp.message_handler(commands=['reset'])
 async def handle_reset(msg: types.Message):
-    path = f"storage/{msg.from_user.id}/"
-    uploadedFiles = [f for f in os.listdir(path)
-                     if os.path.isfile(os.path.join(path, f))]
-    for f in uploadedFiles:
-        os.remove(os.path.join(path, f))
-    await msg.answer("OK!")
+    remove_files(msg.from_user.id)
+    await msg.answer("All uploaded files deleted")
 
 
 @dp.message_handler(commands=['lang'])
@@ -79,13 +81,35 @@ async def handle_lang(msg: types.Message):
 
 @dp.message_handler(commands=['help'])
 async def handle_help(msg: types.Message):
-    await msg.answer("Use commands:\n"
-                     "/start to launch the bot\n"
-                     "/stop to stop the bot\n"
-                     "/make to convert files\n"
-                     "/reset to forget all uploaded files\n"
-                     "/lang to change language\n"
-                     "/help to see this message\n")
+    text = msg.text.split()
+    match len(text):
+        case 1:
+            message = "Use commands:\n"
+                      "/start to launch the bot\n"
+                      "/stop to stop the bot\n"
+                      "/make <format> to convert files into format\n"
+                      "/reset to forget all uploaded files\n"
+                      "/lang to change language\n"
+                      "/help to see this message or \n"
+                      "/help <command> to see additional information about chosen command\n"
+        case 2:
+            match text[1]:
+                case "make":
+                    message = f"Supported formats: {', '.join(map(str, supported_conversion_formats))}\n"
+                              f"Pdf file will be compiled from files of the following types: {', '.join(map(str, supported_pdf_converter_formats))}, the remaining files will be ignored, but will remain among the uploaded ones.\n"
+                              "Zip file will be compiled from all uploaded files.\n"
+                case "start":
+                    message = "Launching bot"
+                case "stop":
+                    message = "Stopping bot, all uploaded files will be deleted\n"
+                              "You'll need to use command start to resume the work with bot"
+                case "reset":
+                    message = "Delete all uploaded files"
+                case _:
+                    message = "I don't now about this command"
+        case _:
+            message = "Please specify one command"
+    await msg.answer(message)
 
 
 @dp.message_handler(content_types=['text'])
