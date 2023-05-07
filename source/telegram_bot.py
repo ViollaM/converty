@@ -6,7 +6,7 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from PIL import Image
 
-from converter import convert_images_to_pdf, convert_files_to_zip, remove_files, supported_pdf_converter_formats
+from converter import convert_images_to_pdf, convert_files_to_zip, convert_zip_to_files, remove_files, supported_pdf_converter_formats
 
 file = open(".secret_token", mode='r')
 TOKEN = file.read()[:-1]
@@ -15,7 +15,7 @@ file.close()
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-supported_conversion_formats = ["pdf", "zip"]
+supported_conversion_formats = ["pdf", "zip", "unzip"]
 
 
 def signal_handler(signum, frame):
@@ -51,6 +51,7 @@ async def handle_make(msg: types.Message):
                          f"Choose supported one from: {', '.join(map(str, supported_conversion_formats))}")
     user_id = msg.from_user.id
     only_images = False
+    single_output = True
     try:
         match format:
             case "pdf":
@@ -58,10 +59,26 @@ async def handle_make(msg: types.Message):
                 only_images = True
             case "zip":
                 file_path = convert_files_to_zip(user_id)
+            case "unzip":
+                file_path = convert_zip_to_files(user_id)
+                single_output = False
         
-        output = open(file_path, "rb")
-        await bot.send_document(msg.chat.id, output)
-        output.close()
+        if single_output:
+            output = open(file_path, "rb")
+            await bot.send_document(msg.chat.id, output)
+            output.close()
+        else:
+            media_group = []
+            outputs = {}
+            for f in os.listdir(file_path):
+                if os.path.isfile(os.path.join(file_path, f)):
+                    outputs[f] = open(os.path.join(file_path, f), "rb")
+                    document = types.InputMediaDocument(type="document", media=outputs[f])
+                    media_group.append(document)
+            await bot.send_media_group(msg.chat.id, media=media_group)
+            for out in outputs.values():
+                out.close()
+            shutil.rmtree(file_path)
         remove_files(user_id, only_images)
     except ValueError as e:
         await msg.answer(str(e))
@@ -101,7 +118,8 @@ async def handle_help(msg: types.Message):
                     message = f"""
                     Supported formats: {', '.join(map(str, supported_conversion_formats))}\n
 Pdf file will be compiled from files of the following types: {', '.join(map(str, supported_pdf_converter_formats))}, the remaining files will be ignored, but will remain among the uploaded ones.\n
-Zip file will be compiled from all uploaded files.
+Zip file will be compiled from all uploaded files.\n
+Unzip option can only unzip one file at a time, will return all files from archive.
                     """
                 case "start":
                     message = "Launching bot"
