@@ -1,5 +1,6 @@
 import os
 import signal
+import shutil
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
@@ -35,7 +36,7 @@ async def handle_start(msg: types.Message):
 
 @dp.message_handler(commands=['stop'])
 async def handle_stop(msg: types.Message):
-    os.remove(f"storage/{msg.from_user.id}")
+    shutil.rmtree(f"storage/{msg.from_user.id}", ignore_errors=True)
     await msg.answer(f"Goodbye, dear {msg.from_user.first_name}")
 
 
@@ -84,29 +85,35 @@ async def handle_help(msg: types.Message):
     text = msg.text.split()
     match len(text):
         case 1:
-            message = "Use commands:\n"
-                      "/start to launch the bot\n"
-                      "/stop to stop the bot\n"
-                      "/make <format> to convert files into format\n"
-                      "/reset to forget all uploaded files\n"
-                      "/lang to change language\n"
-                      "/help to see this message or \n"
-                      "/help <command> to see additional information about chosen command\n"
+            message = """
+            Use commands:
+/start to launch the bot
+/stop to stop the bot
+/make <format> to convert files into format
+/reset to forget all uploaded files
+/lang to change language
+/help to see this message or
+/help <command> to see additional information about chosen command
+            """
         case 2:
             match text[1]:
                 case "make":
-                    message = f"Supported formats: {', '.join(map(str, supported_conversion_formats))}\n"
-                              f"Pdf file will be compiled from files of the following types: {', '.join(map(str, supported_pdf_converter_formats))}, the remaining files will be ignored, but will remain among the uploaded ones.\n"
-                              "Zip file will be compiled from all uploaded files.\n"
+                    message = f"""
+                    Supported formats: {', '.join(map(str, supported_conversion_formats))}\n
+Pdf file will be compiled from files of the following types: {', '.join(map(str, supported_pdf_converter_formats))}, the remaining files will be ignored, but will remain among the uploaded ones.\n
+Zip file will be compiled from all uploaded files.
+                    """
                 case "start":
                     message = "Launching bot"
                 case "stop":
-                    message = "Stopping bot, all uploaded files will be deleted\n"
-                              "You'll need to use command start to resume the work with bot"
+                    message = """
+                    Stopping bot, all uploaded files will be deleted
+You'll need to use command start to resume the work with bot
+                    """
                 case "reset":
                     message = "Delete all uploaded files"
                 case _:
-                    message = "I don't now about this command"
+                    message = "I don't recognize this command"
         case _:
             message = "Please specify one command"
     await msg.answer(message)
