@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.11
 # set work directory
 WORKDIR /root/converty/
 # copy project

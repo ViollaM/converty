@@ -5,17 +5,19 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from PIL import Image
 
+from converter import convert_images_to_pdf, convert_images_to_zip, remove_files
+
 file = open(".secret_token", mode='r')
 TOKEN = file.read()[:-1]
 file.close()
-
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
+supported_conversion_formats = ["pdf", "zip"]
 
 def signal_handler(signum, frame):
     if signum == signal.SIGTERM:
-        os.exit()
+        os._exit(1)
 
 
 @dp.message_handler(commands=['start'])
@@ -35,22 +37,27 @@ async def handle_stop(msg: types.Message):
 
 @dp.message_handler(commands=['make'])
 async def handle_make(msg: types.Message):
-    path = f"storage/{msg.from_user.id}"
-    uploadedFiles = [f for f in os.listdir(path)
-                     if os.path.isfile(os.path.join(path, f))]
-    pdf_path = os.path.join(path, "output.pdf")
-    if len(uploadedFiles) == 0:
-        await msg.answer("No files uploaded")
-        return
-    await msg.answer("Processing...")
-    images = [Image.open(os.path.join(path, f)) for f in uploadedFiles]
-    images[0].save(pdf_path, save_all=True, append_images=images[1:])
-    output = open(pdf_path, "rb")
-    await bot.send_document(msg.chat.id, output)
-    output.close()
-    for f in uploadedFiles:
-        os.remove(os.path.join(path, f))
-    os.remove(os.path.join(path, "output.pdf"))
+    text = msg.text.split()
+    if len(text) != 2:
+        await msg.answer("Please specify one convertation format")
+    format = text[1]
+    if format not in supported_conversion_formats:
+        await msg.answer("Oops, this format is not supported yet 😔️️️\n"
+                         f"Choose supported one from: {', '.join(map(str, supported_conversion_formats))}")
+    user_id = msg.from_user.id
+    try:
+        match format:
+            case "pdf":
+                file_path = convert_images_to_pdf(user_id)
+            case "zip":
+                file_path = convert_images_to_zip(user_id)
+        
+        output = open(file_path, "rb")
+        await bot.send_document(msg.chat.id, output)
+        output.close()
+        remove_files(user_id)
+    except Exception as e:
+        await msg.answer(str(e))
 
 
 @dp.message_handler(commands=['reset'])
@@ -87,10 +94,10 @@ async def handle_text_message(msg: types.Message):
 
 @dp.message_handler(content_types=['photo'])
 async def handle_photo_message(msg: types.Message):
-    fileID = msg.photo[-1].file_id
-    file_info = await bot.get_file(fileID)
+    file_ID = msg.photo[-1].file_id
+    file_info = await bot.get_file(file_ID)
     downloaded_file = await bot.download_file(file_info.file_path)
-    with open(f"storage/{msg.from_user.id}/{fileID}", "wb") as new_file:
+    with open(f"storage/{msg.from_user.id}/{file_ID}.png", "wb") as new_file:
         new_file.write(downloaded_file.getvalue())
     await msg.answer("OK!")
 
