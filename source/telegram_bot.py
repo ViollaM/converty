@@ -6,7 +6,14 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from PIL import Image
 
-from converter import convert_images_to_pdf, convert_files_to_zip, convert_zip_to_files, convert_pdf_to_images, remove_files, supported_pdf_converter_formats
+from converter import (
+    convert_images_to_pdf,
+    convert_files_to_zip,
+    convert_zip_to_files,
+    convert_pdf_to_images,
+    remove_files,
+    supported_pdf_converter_formats
+)
 
 file = open(".secret_token", mode='r')
 TOKEN = file.read()[:-1]
@@ -65,7 +72,6 @@ async def handle_make(msg: types.Message):
             case "images":
                 file_path = convert_pdf_to_images(user_id)
                 single_output = False
-        
         if single_output:
             output = open(file_path, "rb")
             await bot.send_document(msg.chat.id, output)
@@ -85,7 +91,7 @@ async def handle_make(msg: types.Message):
         remove_files(user_id, only_images)
     except ValueError as e:
         await msg.answer(str(e))
-    except:
+    except: # noqa: E722
         await msg.answer("Something went wrong, please try again later")
 
 
@@ -105,33 +111,27 @@ async def handle_help(msg: types.Message):
     text = msg.text.split()
     match len(text):
         case 1:
-            message = """
-            Use commands:
-/start to launch the bot
-/stop to stop the bot
-/make <format> to convert files into format
-/reset to forget all uploaded files
-/lang to change language
-/help to see this message or
-/help <command> to see additional information about chosen command
-            """
+            message = ("Use commands:\n"
+                       "/start to launch the bot\n"
+                       "/stop to stop the bot\n"
+                       "/make <format> to convert files into format\n"
+                       "/reset to forget all uploaded files\n"
+                       "/lang to change language\n"
+                       "/help to see this message or\n"
+                       "/help <command> to see additional information about chosen command\n")
         case 2:
             match text[1]:
                 case "make":
-                    message = f"""
-                    Supported formats: {', '.join(map(str, supported_conversion_formats))}\n
-Pdf file will be compiled from files of the following types: {', '.join(map(str, supported_pdf_converter_formats))}, the remaining files will be ignored, but will remain among the uploaded ones.\n
-Zip file will be compiled from all uploaded files.\n
-Unzip option can only unzip one file at a time, will return all files from archive.\n
-Images option can only extract images from one pdf file at a time, will return all pages as png files.
-                    """
+                    message = (f"Supported formats: {', '.join(map(str, supported_conversion_formats))}\n\n"
+                               f"Pdf file will be compiled from files of the following types: {', '.join(map(str, supported_pdf_converter_formats))}, the remaining files will be ignored, but will remain among the uploaded ones.\n\n"
+                               "Zip file will be compiled from all uploaded files.\n\n"
+                               "Unzip option can only unzip one file at a time, will return all files from archive.\n\n"
+                               "Images option can only extract images from one pdf file at a time, will return all pages as png files.")
                 case "start":
                     message = "Launching bot"
                 case "stop":
-                    message = """
-                    Stopping bot, all uploaded files will be deleted
-You'll need to use command start to resume the work with bot
-                    """
+                    message = ("Stopping bot, all uploaded files will be deleted\n"
+                               "You'll need to use command start to resume the work with bot")
                 case "reset":
                     message = "Delete all uploaded files"
                 case _:
