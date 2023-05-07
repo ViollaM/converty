@@ -5,7 +5,7 @@ from PIL import Image
 import zipfile
 
 
-supported_pdf_converter_formats = [".png", ".gif", ".jpeg", ".jpg"]
+supported_pdf_converter_formats = [".png", ".jpeg", ".jpg"]
 
 
 def convert_images_to_pdf(user_id: str) -> str:
