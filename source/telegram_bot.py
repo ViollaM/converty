@@ -6,7 +6,7 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from PIL import Image
 
-from converter import convert_images_to_pdf, convert_files_to_zip, convert_zip_to_files, remove_files, supported_pdf_converter_formats
+from converter import convert_images_to_pdf, convert_files_to_zip, convert_zip_to_files, convert_pdf_to_images, remove_files, supported_pdf_converter_formats
 
 file = open(".secret_token", mode='r')
 TOKEN = file.read()[:-1]
@@ -15,7 +15,7 @@ file.close()
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-supported_conversion_formats = ["pdf", "zip", "unzip"]
+supported_conversion_formats = ["pdf", "zip", "unzip", "images"]
 
 
 def signal_handler(signum, frame):
@@ -61,6 +61,9 @@ async def handle_make(msg: types.Message):
                 file_path = convert_files_to_zip(user_id)
             case "unzip":
                 file_path = convert_zip_to_files(user_id)
+                single_output = False
+            case "images":
+                file_path = convert_pdf_to_images(user_id)
                 single_output = False
         
         if single_output:
@@ -119,7 +122,8 @@ async def handle_help(msg: types.Message):
                     Supported formats: {', '.join(map(str, supported_conversion_formats))}\n
 Pdf file will be compiled from files of the following types: {', '.join(map(str, supported_pdf_converter_formats))}, the remaining files will be ignored, but will remain among the uploaded ones.\n
 Zip file will be compiled from all uploaded files.\n
-Unzip option can only unzip one file at a time, will return all files from archive.
+Unzip option can only unzip one file at a time, will return all files from archive.\n
+Images option can only extract images from one pdf file at a time, will return all pages as png files.
                     """
                 case "start":
                     message = "Launching bot"
@@ -150,7 +154,7 @@ async def handle_photo_message(msg: types.Message):
     downloaded_file = await bot.download_file(file_info.file_path)
     with open(f"storage/{msg.from_user.id}/{file_ID}.png", "wb") as new_file:
         new_file.write(downloaded_file.getvalue())
-    await msg.answer("Image uploaded!")
+    await msg.answer("Photo uploaded!")
 
 
 @dp.message_handler(content_types=['document'])

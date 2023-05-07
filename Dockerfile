@@ -4,6 +4,6 @@ WORKDIR /root/converty/
 # copy project
 # COPY . /usr/src/app/
 # install dependencies
-RUN pip install aiogram Pillow
+RUN pip install aiogram Pillow PyMuPDF
 # run app
 CMD ["python", "telegram_bot.py"]

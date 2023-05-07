@@ -3,6 +3,8 @@ import signal
 from aiogram import Bot, types
 from PIL import Image
 import zipfile
+import fitz
+import io
 
 
 supported_pdf_converter_formats = [".png", ".jpeg", ".jpg"]
@@ -18,6 +20,24 @@ def convert_images_to_pdf(user_id: str) -> str:
     images = [Image.open(os.path.join(path, f)) for f in uploaded_files]
     images[0].save(pdf_path, save_all=True, append_images=images[1:])
     return pdf_path
+
+
+def convert_pdf_to_images(user_id: str) -> str:
+    path = f"storage/{user_id}"
+    uploaded_files = [f for f in os.listdir(path)
+                     if os.path.isfile(os.path.join(path, f)) and os.path.splitext(os.path.join(path, f))[1].lower() == ".pdf"]
+    if len(uploaded_files) == 0:
+        raise ValueError("No files uploaded")
+    if len(uploaded_files) > 1:
+        raise ValueError("Found too many files, I can only extract images from one pdf file at a time")
+    pdf_file = fitz.open(os.path.join(path, uploaded_files[0]))
+    os.mkdir(os.path.join(path, "output"))
+    files_path = os.path.join(path, "output")
+    for page in pdf_file:
+        image = page.get_pixmap()
+        image.save(os.path.join(files_path, f"{str(page.number)}.png"), output="png")
+    return files_path
+
 
 def convert_files_to_zip(user_id: str) -> str:
     path = f"storage/{user_id}"
