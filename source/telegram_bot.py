@@ -26,7 +26,7 @@ supported_conversion_formats = ["pdf", "zip", "unzip", "images"]
 
 def signal_handler(signum, frame):
     if signum == signal.SIGTERM:
-        os._exit(1)
+        os._exit(0)
 
 
 @dp.message_handler(commands=['start'])
