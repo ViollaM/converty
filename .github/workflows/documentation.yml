@@ -1,6 +1,12 @@
 name: documentation
 run-name: Update static documentation
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 permissions:
     contents: write
 
