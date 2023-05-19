@@ -1,3 +1,4 @@
+"""Converter telegram bot, command processing"""
 import os
 import signal
 import shutil
@@ -27,6 +28,7 @@ supported_conversion_formats = ["pdf", "zip", "unzip", "images"]
 
 
 def signal_handler(signum, frame):
+    """Signal handler"""
     if signum == signal.SIGTERM:
         os._exit(0)
 
@@ -124,6 +126,7 @@ async def handle_reset(msg: types.Message):
 
 @dp.message_handler(commands=['lang'])
 async def handle_lang(msg: types.Message):
+    """Change bot language"""
     await msg.answer("not implemented")
 
 
@@ -172,6 +175,7 @@ async def handle_help(msg: types.Message):
 
 @dp.message_handler(content_types=['text'])
 async def handle_text_message(msg: types.Message):
+    """Text handler"""
     mesg = msg.text[::-1]
     await msg.answer(mesg)
 

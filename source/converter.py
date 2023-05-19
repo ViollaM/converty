@@ -1,3 +1,4 @@
+"""Converter telegram bot business logic, functions for conversion"""
 import os
 from PIL import Image
 import zipfile
