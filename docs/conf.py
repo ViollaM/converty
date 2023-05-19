@@ -1,4 +1,6 @@
 """Configuration file for the Sphinx documentation builder."""
+import os
+import sys
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -12,8 +14,6 @@ copyright = '2023, Margarita Yakovleva'
 author = 'Margarita Yakovleva'
 language = 'English'
 
-import os
-import sys
 sys.path.insert(0, os.path.abspath('../source'))
 
 # -- General configuration ---------------------------------------------------
@@ -23,8 +23,6 @@ extensions = ['sphinx.ext.autodoc']
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
-
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
