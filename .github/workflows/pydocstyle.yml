@@ -1,0 +1,26 @@
+name: pydocstyle
+run-name: Pydocstyle Check
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  pydocstyle-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pydocstyle
+    - name: pydocstyle check
+      run: |
+        pydocstyle .
+
