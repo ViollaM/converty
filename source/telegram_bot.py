@@ -14,7 +14,9 @@ from converter import (
     supported_pdf_converter_formats
 )
 
-file = open(".secret_token", mode='r')
+directory_path = os.path.dirname(os.path.abspath(__file__))
+token_file_path = os.path.join(directory_path, ".secret_token")
+file = open(token_file_path, mode='r')
 TOKEN = file.read()[:-1]
 file.close()
 
@@ -31,6 +33,11 @@ def signal_handler(signum, frame):
 
 @dp.message_handler(commands=['start'])
 async def handle_start(msg: types.Message):
+    """Processes the start command, creates users' directory and says hi
+
+    :param msg: message from user
+    :type msg: aiogram.types.Message
+    """
     try:
         os.mkdir(f"storage/{msg.from_user.id}", mode=0o755)
     except FileExistsError:
@@ -42,12 +49,22 @@ async def handle_start(msg: types.Message):
 
 @dp.message_handler(commands=['stop'])
 async def handle_stop(msg: types.Message):
+    """Processes the stop command, deletes users' directory and says bye
+
+    :param msg: message from user
+    :type msg: aiogram.types.Message
+    """
     shutil.rmtree(f"storage/{msg.from_user.id}", ignore_errors=True)
     await msg.answer(f"Goodbye, dear {msg.from_user.first_name}")
 
 
 @dp.message_handler(commands=['make'])
 async def handle_make(msg: types.Message):
+    """Processes the make command, parses format and sends user converted file
+
+    :param msg: message from user
+    :type msg: aiogram.types.Message
+    """
     text = msg.text.split()
     if len(text) != 2:
         await msg.answer("Please specify one convertation format")
@@ -96,6 +113,11 @@ async def handle_make(msg: types.Message):
 
 @dp.message_handler(commands=['reset'])
 async def handle_reset(msg: types.Message):
+    """Processes the reset command, deletes uploaded files
+
+    :param msg: message from user
+    :type msg: aiogram.types.Message
+    """
     remove_files(msg.from_user.id)
     await msg.answer("All uploaded files deleted")
 
@@ -107,6 +129,11 @@ async def handle_lang(msg: types.Message):
 
 @dp.message_handler(commands=['help'])
 async def handle_help(msg: types.Message):
+    """Processes the help command, sends user commands' descriptions
+
+    :param msg: message from user
+    :type msg: aiogram.types.Message
+    """
     text = msg.text.split()
     match len(text):
         case 1:
@@ -151,6 +178,11 @@ async def handle_text_message(msg: types.Message):
 
 @dp.message_handler(content_types=['photo'])
 async def handle_photo_message(msg: types.Message):
+    """Handles photo messages and saves it to the users' directory
+
+    :param msg: message from user
+    :type msg: aiogram.types.Message
+    """
     file_ID = msg.photo[-1].file_id
     file_info = await bot.get_file(file_ID)
     downloaded_file = await bot.download_file(file_info.file_path)
@@ -161,6 +193,11 @@ async def handle_photo_message(msg: types.Message):
 
 @dp.message_handler(content_types=['document'])
 async def handle_document_message(msg: types.Message):
+    """Handles document messages and saves it to the users' directory
+
+    :param msg: message from user
+    :type msg: aiogram.types.Message
+    """
     file = msg.document
     file_ID = file.file_id
     file_info = await bot.get_file(file_ID)

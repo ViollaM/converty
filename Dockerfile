@@ -4,6 +4,8 @@ WORKDIR /root/converty/
 # copy project
 # COPY . /usr/src/app/
 # install dependencies
-RUN pip install aiogram Pillow PyMuPDF
+COPY Pipfile Pipfile.lock ./
+RUN pip install pipenv
+RUN pipenv install --dev --system --deploy
 # run app
 CMD ["python", "telegram_bot.py"]

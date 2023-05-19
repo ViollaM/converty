@@ -8,6 +8,12 @@ supported_pdf_converter_formats = [".png", ".jpeg", ".jpg"]
 
 
 def convert_images_to_pdf(user_id: str) -> str:
+    """Makes pdf from pictures and returns path to generated file
+
+    :param user_id: unique identifier for telegram user
+    :type user_id: str
+    :rtype: str
+    """
     path = f"storage/{user_id}"
     uploaded_files = [f for f in os.listdir(path)
                       if os.path.isfile(os.path.join(path, f))
@@ -22,6 +28,12 @@ def convert_images_to_pdf(user_id: str) -> str:
 
 
 def convert_pdf_to_images(user_id: str) -> str:
+    """Splits pdf into pictures and returns path to the directory with produced pictures
+
+    :param user_id: unique identifier for telegram user
+    :type user_id: str
+    :rtype: str
+    """
     path = f"storage/{user_id}"
     uploaded_files = [f for f in os.listdir(path)
                       if os.path.isfile(os.path.join(path, f))
@@ -40,6 +52,12 @@ def convert_pdf_to_images(user_id: str) -> str:
 
 
 def convert_files_to_zip(user_id: str) -> str:
+    """Archives files and returns path to zip
+
+    :param user_id: unique identifier for telegram user
+    :type user_id: str
+    :rtype: str
+    """
     path = f"storage/{user_id}"
     uploaded_files = [f for f in os.listdir(path)
                       if os.path.isfile(os.path.join(path, f))]
@@ -54,6 +72,12 @@ def convert_files_to_zip(user_id: str) -> str:
 
 
 def convert_zip_to_files(user_id: str) -> str:
+    """Unzips archive and returns path to the directory with produced pictures
+
+    :param user_id: unique identifier for telegram user
+    :type user_id: str
+    :rtype: str
+    """
     path = f"storage/{user_id}"
     uploaded_files = [f for f in os.listdir(path)
                       if os.path.isfile(os.path.join(path, f))
@@ -70,6 +94,14 @@ def convert_zip_to_files(user_id: str) -> str:
 
 
 def remove_files(user_id: str, only_images=False):
+    """Cleans users' directory after conversion
+
+    :param user_id: unique identifier for telegram user
+    :type user_id: str
+    :param only_images: removes only pictures
+    :type only_images: Bool
+    :rtype: None
+    """
     path = f"storage/{user_id}"
     if only_images:
         uploaded_files = [f for f in os.listdir(path)
