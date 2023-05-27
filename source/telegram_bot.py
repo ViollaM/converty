@@ -15,6 +15,12 @@ from converter import (
     supported_pdf_converter_formats
 )
 
+from localization import (
+    Localization,
+    supported_languages,
+    save_locale
+)
+
 directory_path = os.path.dirname(os.path.abspath(__file__))
 token_file_path = os.path.join(directory_path, ".secret_token")
 file = open(token_file_path, mode='r')
@@ -23,6 +29,11 @@ file.close()
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
+
+locales_path = "/etc/locales"
+i18n = Localization("converty", locales_path)
+dp.middleware.setup(i18n)
+_ = i18n.gettext
 
 supported_conversion_formats = ["pdf", "zip", "unzip", "images"]
 
@@ -42,11 +53,11 @@ async def handle_start(msg: types.Message):
     """
     try:
         os.mkdir(f"storage/{msg.from_user.id}", mode=0o755)
+        os.mkdir(f"storage/{msg.from_user.id}/locale", mode=0o755)
     except FileExistsError:
         pass
-    await msg.answer(f"Hi, dear {msg.from_user.first_name},"
-                     "my name is Converty and I am file converter bot 😎\n"
-                     "Use /help command to find out what I can do\n")
+    await msg.answer(_("Hi, dear {fname}, my name is Converty and I am file converter bot 😎\n"
+                     "Use /help command to find out what I can do\n").format(fname=msg.from_user.first_name))
 
 
 @dp.message_handler(commands=['stop'])
@@ -57,7 +68,7 @@ async def handle_stop(msg: types.Message):
     :type msg: aiogram.types.Message
     """
     shutil.rmtree(f"storage/{msg.from_user.id}", ignore_errors=True)
-    await msg.answer(f"Goodbye, dear {msg.from_user.first_name}")
+    await msg.answer(_("Goodbye, dear {fname}").format(fname=msg.from_user.first_name))
 
 
 @dp.message_handler(commands=['make'])
@@ -69,11 +80,11 @@ async def handle_make(msg: types.Message):
     """
     text = msg.text.split()
     if len(text) != 2:
-        await msg.answer("Please specify one convertation format")
+        return await msg.answer(_("Please specify one convertation format"))
     format = text[1]
     if format not in supported_conversion_formats:
-        await msg.answer("Oops, this format is not supported yet 😔️️️\n"
-                         f"Choose supported one from: {', '.join(map(str, supported_conversion_formats))}")
+        return await msg.answer(_("Oops, this format is not supported yet 😔️️️\n"
+                                  "Choose supported one from: {formats}").format(formats=', '.join(map(str, supported_conversion_formats))))
     user_id = msg.from_user.id
     only_images = False
     single_output = True
@@ -110,7 +121,7 @@ async def handle_make(msg: types.Message):
     except ValueError as e:
         await msg.answer(str(e))
     except:  # noqa: E722
-        await msg.answer("Something went wrong, please try again later")
+        await msg.answer(_("Something went wrong, please try again later"))
 
 
 @dp.message_handler(commands=['reset'])
@@ -121,13 +132,21 @@ async def handle_reset(msg: types.Message):
     :type msg: aiogram.types.Message
     """
     remove_files(msg.from_user.id)
-    await msg.answer("All uploaded files deleted")
+    await msg.answer(_("All uploaded files deleted"))
 
 
 @dp.message_handler(commands=['lang'])
 async def handle_lang(msg: types.Message):
     """Change bot language"""
-    await msg.answer("not implemented")
+    text = msg.text.split()
+    if len(text) != 2:
+        return await msg.answer(_("Please specify one language"))
+    language = text[1]
+    if language not in supported_languages:
+        return await msg.answer(_("Unfortunately, this language is not supported yet 😔️️️\n"
+                                  "Choose supported one from: {langs}").format(langs=', '.join(map(str, supported_languages))))
+    save_locale(msg.from_user.id, language)
+    await msg.answer(_("Language successfully changed", locale=language))
 
 
 @dp.message_handler(commands=['help'])
@@ -140,36 +159,39 @@ async def handle_help(msg: types.Message):
     text = msg.text.split()
     match len(text):
         case 1:
-            message = ("Use commands:\n"
-                       "/start to launch the bot\n"
-                       "/stop to stop the bot\n"
-                       "/make <format> to convert files into format\n"
-                       "/reset to forget all uploaded files\n"
-                       "/lang to change language\n"
-                       "/help to see this message or\n"
-                       "/help <command> to see additional information about chosen command\n")
+            message = (_("Use commands:\n"
+                         "/start to launch the bot\n"
+                         "/stop to stop the bot\n"
+                         "/make <format> to convert files into format\n"
+                         "/reset to forget all uploaded files\n"
+                         "/lang to change language\n"
+                         "/help to see this message or\n"
+                         "/help <command> to see additional information about chosen command\n"))
         case 2:
             match text[1]:
                 case "make":
-                    message = (f"Supported formats: {', '.join(map(str, supported_conversion_formats))}\n\n"
-                               "Pdf file will be compiled from files of the following types: "
-                               f"{', '.join(map(str, supported_pdf_converter_formats))}, the remaining files "
-                               "will be ignored, but will remain among the uploaded ones.\n\n"
-                               "Zip file will be compiled from all uploaded files.\n\n"
-                               "Unzip option can only unzip one file at a time, will return all files from archive.\n\n"
-                               "Images option can only extract images from one pdf file at a time, "
-                               "will return all pages as png files.")
+                    message = (_("Supported formats: {formats}\n\n"
+                                 "Pdf file will be compiled from files of the following types: "
+                                 "{pdf_formats}, the remaining files "
+                                 "will be ignored, but will remain among the uploaded ones.\n\n"
+                                 "Zip file will be compiled from all uploaded files.\n\n"
+                                 "Unzip option can only unzip one file at a time, will return all files from archive.\n\n"
+                                 "Images option can only extract images from one pdf file at a time, "
+                                 "will return all pages as png files.").format(formats=', '.join(map(str, supported_conversion_formats)),
+                                                                               pdf_formats=', '.join(map(str, supported_pdf_converter_formats))))
                 case "start":
-                    message = "Launching bot"
+                    message = _("Launching bot")
                 case "stop":
-                    message = ("Stopping bot, all uploaded files will be deleted\n"
-                               "You'll need to use command start to resume the work with bot")
+                    message = (_("Stopping bot, all uploaded files will be deleted\n"
+                               "You'll need to use command /start to resume the work with bot"))
                 case "reset":
-                    message = "Delete all uploaded files"
+                    message = _("Delete all uploaded files")
+                case "lang":
+                    message = _("Changes bot language, supported languages: {langs}").format(langs=', '.join(map(str, supported_languages)))
                 case _:
-                    message = "I don't recognize this command"
+                    message = _("I don't recognize this command")
         case _:
-            message = "Please specify one command"
+            message = _("Please specify one command")
     await msg.answer(message)
 
 
@@ -192,7 +214,7 @@ async def handle_photo_message(msg: types.Message):
     downloaded_file = await bot.download_file(file_info.file_path)
     with open(f"storage/{msg.from_user.id}/{file_ID}.png", "wb") as new_file:
         new_file.write(downloaded_file.getvalue())
-    await msg.answer("Photo uploaded!")
+    await msg.answer(_("Photo uploaded!"))
 
 
 @dp.message_handler(content_types=['document'])
@@ -208,7 +230,7 @@ async def handle_document_message(msg: types.Message):
     downloaded_file = await bot.download_file(file_info.file_path)
     with open(f"storage/{msg.from_user.id}/{file_ID}={file.file_name}", "wb") as new_file:
         new_file.write(downloaded_file.getvalue())
-    await msg.answer("Document uploaded!")
+    await msg.answer(_("Document uploaded!"))
 
 
 if __name__ == '__main__':

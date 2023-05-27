@@ -1,0 +1,156 @@
+# French translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-05-27 15:16+0300\n"
+"PO-Revision-Date: 2023-05-27 14:51+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: source/telegram_bot.py:61
+msgid ""
+"Hi, dear {fname}, my name is Converty and I am file converter bot 😎\n"
+"Use /help command to find out what I can do\n"
+msgstr ""
+"Salut, cher {fname}, je m'appelle Converty et je suis un bot de "
+"conversion de fichiers 😎\n"
+"Utilisez la commande / help pour savoir ce que je peux faire\n"
+
+#: source/telegram_bot.py:73
+msgid "Goodbye, dear {fname}"
+msgstr "À bientôt, cher {fname}"
+
+#: source/telegram_bot.py:85
+msgid "Please specify one convertation format"
+msgstr "Spécifiez un format de conversion s'il tu plait"
+
+#: source/telegram_bot.py:88
+msgid ""
+"Oops, this format is not supported yet 😔️️️\n"
+"Choose supported one from: {formats}"
+msgstr ""
+"Oups, ce format n'est pas encore supporté 😔️️️\n"
+"Choisissez l'un des formats pris en charge: {formats}"
+
+#: source/telegram_bot.py:126
+msgid "Something went wrong, please try again later"
+msgstr "Quelque chose s'est mal passé, veuillez réessayer plus tard"
+
+#: source/telegram_bot.py:137
+msgid "All uploaded files deleted"
+msgstr "Tous les fichiers téléchargés supprimés"
+
+#: source/telegram_bot.py:145
+msgid "Please specify one language"
+msgstr "Spécifiez une langue s'il tu plait"
+
+#: source/telegram_bot.py:148
+msgid ""
+"Unfortunately, this language is not supported yet 😔️️️\n"
+"Choose supported one from: {langs}"
+msgstr ""
+"Malheureusement, cette langue n'est pas encore prise en charge 😔️️️\n"
+"Choisissez celui pris en charge parmi: {langs}"
+
+#: source/telegram_bot.py:151
+msgid "Language successfully changed"
+msgstr "La langue a été modifiée avec succès"
+
+#: source/telegram_bot.py:164
+msgid ""
+"Use commands:\n"
+"/start to launch the bot\n"
+"/stop to stop the bot\n"
+"/make <format> to convert files into format\n"
+"/reset to forget all uploaded files\n"
+"/lang to change language\n"
+"/help to see this message or\n"
+"/help <command> to see additional information about chosen command\n"
+msgstr ""
+"Utiliser les commandes:\n"
+"/start pour lancer le bot\n"
+"/stop pour arrêter le bot\n"
+"/make <format> pour convertir des fichiers au format\n"
+"/reset pour oublier tous les fichiers téléchargés\n"
+"/lang pour changer de langue\n"
+"/help pour voir ce message ou\n"
+"/help <command> pour voir des informations supplémentaires sur la "
+"commande choisie\n"
+
+#: source/telegram_bot.py:175
+msgid ""
+"Supported formats: {formats}\n"
+"\n"
+"Pdf file will be compiled from files of the following types: "
+"{pdf_formats}, the remaining files will be ignored, but will remain among"
+" the uploaded ones.\n"
+"\n"
+"Zip file will be compiled from all uploaded files.\n"
+"\n"
+"Unzip option can only unzip one file at a time, will return all files "
+"from archive.\n"
+"\n"
+"Images option can only extract images from one pdf file at a time, will "
+"return all pages as png files."
+msgstr ""
+"Formats pris en charge: {formats}\n"
+"\n"
+"Le fichier Pdf sera compilé à partir des fichiers des types "
+"suivants:{pdf_formats}, les fichiers restants seront ignorés, mais "
+"resteront parmiceux téléchargés.\n"
+"\n"
+"Le fichier Zip sera compilé à partir de tous les fichiers téléchargés.\n"
+"\n"
+"L'option Unzip ne peut décompresser qu'un seul fichier à la fois, "
+"retournera tous les fichiers des archives.\n"
+"\n"
+"L'option Images ne peut extraire des images que d'un seul fichier pdf à "
+"la fois,renvoie toutes les pages sous forme de fichiers png."
+
+#: source/telegram_bot.py:184
+msgid "Launching bot"
+msgstr "Lancement du bot"
+
+#: source/telegram_bot.py:186
+msgid ""
+"Stopping bot, all uploaded files will be deleted\n"
+"You'll need to use command /start to resume the work with bot"
+msgstr ""
+"Arrêt du bot, tous les fichiers téléchargés seront supprimés\n"
+"Tu dois utiliser commande /start pour reprendre le travail avec le bot"
+
+#: source/telegram_bot.py:189
+msgid "Delete all uploaded files"
+msgstr "Supprimer tous les fichiers téléchargés"
+
+#: source/telegram_bot.py:191
+msgid "Changes bot language, supported languages: {langs}"
+msgstr "Change la langue du bot, langues prises en charge: {langs}"
+
+#: source/telegram_bot.py:193
+msgid "I don't recognize this command"
+msgstr "Je ne reconnais pas cette commande"
+
+#: source/telegram_bot.py:195
+msgid "Please specify one command"
+msgstr "Spécifiez une commande s'il tu plait"
+
+#: source/telegram_bot.py:218
+msgid "Photo uploaded!"
+msgstr "Photo téléchargée!"
+
+#: source/telegram_bot.py:234
+msgid "Document uploaded!"
+msgstr "Document téléchargé!"
+

@@ -1,2 +1,2 @@
 [pydocstyle]
-ignore = D400,D401,D415,D213
+ignore = D400,D401,D415,D213,D203
