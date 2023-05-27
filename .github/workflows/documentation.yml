@@ -10,6 +10,9 @@ on:
 permissions:
     contents: write
 
+env:
+  LOCALES_PATH: locales
+
 jobs:
   docs:
     runs-on: ubuntu-latest
@@ -24,8 +27,6 @@ jobs:
           pip install sphinx
           pip install pipenv
           pipenv install --dev --system --deploy
-          mkdir /etc/locales
-          cp locales/* /etc/locales
       - name: sphinx build
         run: |
           sphinx-build docs _build

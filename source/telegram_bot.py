@@ -30,7 +30,7 @@ file.close()
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-locales_path = "/etc/locales"
+locales_path = os.environ.get('LOCALES_PATH')
 i18n = Localization("converty", locales_path)
 dp.middleware.setup(i18n)
 _ = i18n.gettext

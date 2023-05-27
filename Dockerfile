@@ -9,5 +9,6 @@ COPY locales /etc/locales
 RUN pybabel compile -D converty -d /etc/locales -l ru
 RUN pybabel compile -D converty -d /etc/locales -l en
 RUN pybabel compile -D converty -d /etc/locales -l fr
+ENV LOCALES_PATH=/etc/locales
 # run app
 CMD ["python", "telegram_bot.py"]
