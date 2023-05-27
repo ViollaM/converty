@@ -27,6 +27,9 @@ jobs:
           pip install sphinx
           pip install pipenv
           pipenv install --dev --system --deploy
+          pybabel compile -D converty -d locales -l ru
+          pybabel compile -D converty -d locales -l en
+          pybabel compile -D converty -d locales -l fr
       - name: sphinx build
         run: |
           sphinx-build docs _build
