@@ -61,7 +61,7 @@ def get_migration_num(version: str) -> int:
     :rtype: int
     """
     nums = [int(x) for x in version.split(".")]
-    return nums[0]*100 + nums[1] * 10 + nums[2]
+    return nums[0]*10000 + nums[1] * 100 + nums[2]
 
 def db_write_feedback(db, comment: str):
     """Write comment to db
