@@ -48,3 +48,8 @@ def migrate_db(db):
 def get_migration_num(version):
     nums = [int(x) for x in version.split(".")]
     return nums[0]*100 + nums[1] * 10 + nums[2]
+
+def db_write_feedback(db, comment):
+    curr = db.cursor()
+    curr.execute("insert into feedback (message) values (%s)", [comment])
+    db.commit()

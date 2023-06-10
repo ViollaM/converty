@@ -25,7 +25,8 @@ from localization import (
 
 from db_manager import (
     get_db_connection,
-    migrate_db
+    migrate_db,
+    db_write_feedback
 )
 
 config = configparser.ConfigParser()
@@ -206,6 +207,17 @@ async def handle_help(msg: types.Message):
         case _:
             message = _("Please specify one command")
     await msg.answer(message)
+
+
+@dp.message_handler(commands=['feedback'])
+async def handle_lang(msg: types.Message):
+    """Make feedback about bot"""
+    text = msg.text.split()
+    if len(text) > 1:
+        db_write_feedback(conn, " ".join(text[1:]))
+        await msg.answer(_("Thanks for your feedback!"))
+    else:
+        await msg.answer(_("Write something please"))
 
 
 @dp.message_handler(content_types=['text'])
