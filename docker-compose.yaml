@@ -6,3 +6,12 @@ services:
         container_name: converty_bot
         volumes:
             - ./source:/root/converty
+    db:
+        image: postgres
+        container_name: "converty-db"
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=thoh7eTh
+            - POSTGRES_DB=converty

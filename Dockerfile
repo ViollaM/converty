@@ -4,6 +4,7 @@ WORKDIR /root/converty/
 # install dependencies
 COPY Pipfile Pipfile.lock ./
 RUN pip install pipenv
+RUN pip install psycopg2-binary
 RUN pipenv install --dev --system --deploy
 COPY locales /etc/locales
 RUN pybabel compile -D converty -d /etc/locales -l ru

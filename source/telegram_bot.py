@@ -2,6 +2,7 @@
 import os
 import signal
 import shutil
+import psycopg2
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
@@ -20,6 +21,12 @@ from localization import (
     supported_languages,
     save_locale
 )
+
+conn = psycopg2.connect(database="converty",
+                        host="db",
+                        user="postgres",
+                        password="thoh7eTh",
+                        port="5432")
 
 directory_path = os.path.dirname(os.path.abspath(__file__))
 token_file_path = os.path.join(directory_path, ".secret_token")
