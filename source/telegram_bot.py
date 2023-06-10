@@ -3,6 +3,7 @@ import os
 import signal
 import shutil
 import psycopg2
+import configparser
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
@@ -22,11 +23,13 @@ from localization import (
     save_locale
 )
 
-conn = psycopg2.connect(database="converty",
-                        host="db",
-                        user="postgres",
-                        password="thoh7eTh",
-                        port="5432")
+config = configparser.ConfigParser()
+config.read("/etc/converty_config.ini")
+conn = psycopg2.connect(database=config["Postgres"]["Database"],
+                        host=config["Postgres"]["Host"],
+                        user=config["Postgres"]["User"],
+                        password=config["Postgres"]["Password"],
+                        port=config["Postgres"]["Port"])
 
 directory_path = os.path.dirname(os.path.abspath(__file__))
 token_file_path = os.path.join(directory_path, ".secret_token")

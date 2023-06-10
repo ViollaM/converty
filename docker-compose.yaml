@@ -6,9 +6,11 @@ services:
         container_name: converty_bot
         volumes:
             - ./source:/root/converty
+            - ./config/converty_config.ini:/etc/converty_config.ini
+
     db:
         image: postgres
-        container_name: "converty-db"
+        container_name: "converty_db"
         ports:
             - "5432:5432"
         environment:
