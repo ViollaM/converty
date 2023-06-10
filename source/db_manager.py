@@ -1,7 +1,11 @@
 import psycopg2
 import os
 
-def get_db_connection(psql_config):
+def db_connect(psql_config):
+    """Makes connection to postgres server
+
+    :param psql_config: postgres connection config
+    """
     try:
         return psycopg2.connect(
             database=psql_config["Database"],
@@ -12,7 +16,11 @@ def get_db_connection(psql_config):
     except:
         return False
 
-def migrate_db(db):
+def db_migrate(db):
+    """Applies DB migrations if needed
+
+    :param db: postgres db connection
+    """
     curr = db.cursor()
     curr.execute("""
         create table if not exists migrate_history(
@@ -45,11 +53,22 @@ def migrate_db(db):
 
     db.commit()
 
-def get_migration_num(version):
+def get_migration_num(version: str) -> int:
+    """Return version integer conversation
+
+    :param version: migration version string, for example "2.1.1"
+    :type version: str
+    :rtype: int
+    """
     nums = [int(x) for x in version.split(".")]
     return nums[0]*100 + nums[1] * 10 + nums[2]
 
-def db_write_feedback(db, comment):
+def db_write_feedback(db, comment: str):
+    """Write comment to db
+
+    :param db: postgres db connection
+    :param comment: user's feedback about service
+    """
     curr = db.cursor()
     curr.execute("insert into feedback (message) values (%s)", [comment])
     db.commit()

@@ -24,18 +24,18 @@ from localization import (
 )
 
 from db_manager import (
-    get_db_connection,
-    migrate_db,
+    db_connect,
+    db_migrate,
     db_write_feedback
 )
 
 config = configparser.ConfigParser()
 config.read("config/converty_config.ini")
-conn = get_db_connection(config["Postgres"])
+conn = db_connect(config["Postgres"])
 
 if conn:
-    migrate_db(conn)
     print("Connection to the PostgreSQL established successfully.", flush=True)
+    db_migrate(conn)
 else:
     print("Connection to the PostgreSQL failed.", flush=True)
 
@@ -179,6 +179,7 @@ async def handle_help(msg: types.Message):
                          "/make <format> to convert files into format\n"
                          "/reset to forget all uploaded files\n"
                          "/lang to change language\n"
+                         "/feedback to write us"
                          "/help to see this message or\n"
                          "/help <command> to see additional information about chosen command\n"))
         case 2:
@@ -202,6 +203,8 @@ async def handle_help(msg: types.Message):
                     message = _("Delete all uploaded files")
                 case "lang":
                     message = _("Changes bot language, supported languages: {langs}").format(langs=', '.join(map(str, supported_languages)))
+                case "feedback":
+                    message = _("Write a feedback about our service")
                 case _:
                     message = _("I don't recognize this command")
         case _:
