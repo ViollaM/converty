@@ -23,21 +23,22 @@ from localization import (
     save_locale
 )
 
+from db_manager import (
+    get_db_connection,
+    migrate_db
+)
+
 config = configparser.ConfigParser()
-config.read("/etc/converty_config.ini")
-conn = psycopg2.connect(database=config["Postgres"]["Database"],
-                        host=config["Postgres"]["Host"],
-                        user=config["Postgres"]["User"],
-                        password=config["Postgres"]["Password"],
-                        port=config["Postgres"]["Port"])
+config.read("config/converty_config.ini")
+conn = get_db_connection(config["Postgres"])
 
-directory_path = os.path.dirname(os.path.abspath(__file__))
-token_file_path = os.path.join(directory_path, ".secret_token")
-file = open(token_file_path, mode='r')
-TOKEN = file.read()[:-1]
-file.close()
+if conn:
+    migrate_db(conn)
+    print("Connection to the PostgreSQL established successfully.", flush=True)
+else:
+    print("Connection to the PostgreSQL failed.", flush=True)
 
-bot = Bot(token=TOKEN)
+bot = Bot(token=config["Converty"]["SecretToken"])
 dp = Dispatcher(bot)
 
 locales_path = os.environ.get('LOCALES_PATH')
@@ -50,6 +51,8 @@ supported_conversion_formats = ["pdf", "zip", "unzip", "images"]
 
 def signal_handler(signum, frame):
     """Signal handler"""
+    if conn:
+        conn.close()
     if signum == signal.SIGTERM:
         os._exit(0)
 
