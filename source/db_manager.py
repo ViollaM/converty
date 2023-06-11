@@ -7,14 +7,20 @@ def db_connect(psql_config):
     :param psql_config: postgres connection config
     """
     try:
-        return psycopg2.connect(
+        psql_server = psycopg2.connect(
             database=psql_config["Database"],
             host=psql_config["Host"],
             user=psql_config["User"],
             password=psql_config["Password"],
             port=psql_config["Port"])
-    except:
-        return False
+        try:
+            db_migrate(psql_server)
+            return psql_server
+        except Exception as _ex:
+            print(f'Migration failed: {_ex}', flush=True)
+    except Exception as _ex:
+        print(f'Connection to the PostgreSQL failed: {_ex}\n', flush=True)
+    return None
 
 def db_migrate(db):
     """Applies DB migrations if needed

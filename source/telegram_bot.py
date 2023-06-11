@@ -25,19 +25,19 @@ from localization import (
 
 from db_manager import (
     db_connect,
-    db_migrate,
     db_write_feedback
+)
+
+from mailer import (
+    smpt_connect,
+    send_email
 )
 
 config = configparser.ConfigParser()
 config.read("config/converty_config.ini")
-conn = db_connect(config["Postgres"])
 
-if conn:
-    print("Connection to the PostgreSQL established successfully.", flush=True)
-    db_migrate(conn)
-else:
-    print("Connection to the PostgreSQL failed.", flush=True)
+db = db_connect(config["Postgres"])
+smtp = smpt_connect(config["Smtp"])
 
 bot = Bot(token=config["Converty"]["SecretToken"])
 dp = Dispatcher(bot)
@@ -52,8 +52,10 @@ supported_conversion_formats = ["pdf", "zip", "unzip", "images"]
 
 def signal_handler(signum, frame):
     """Signal handler"""
-    if conn:
-        conn.close()
+    if db:
+        db.close()
+    if smtp:
+        smtp.close()
     if signum == signal.SIGTERM:
         os._exit(0)
 
@@ -217,7 +219,7 @@ async def handle_lang(msg: types.Message):
     """Make feedback about bot"""
     text = msg.text.split()
     if len(text) > 1:
-        db_write_feedback(conn, " ".join(text[1:]))
+        db_write_feedback(db, " ".join(text[1:]))
         await msg.answer(_("Thanks for your feedback!"))
     else:
         await msg.answer(_("Write something please"))
