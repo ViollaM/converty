@@ -136,7 +136,8 @@ async def handle_make(msg: types.Message):
         remove_files(user_id, only_images)
     except ValueError as e:
         await msg.answer(str(e))
-    except:  # noqa: E722
+    except Exception as _ex:  # noqa: E722
+        print(f'Exception caught: {_ex}', flush=True)
         await msg.answer(_("Something went wrong, please try again later"))
 
 
