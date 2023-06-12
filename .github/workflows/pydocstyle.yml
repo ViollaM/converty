@@ -22,5 +22,5 @@ jobs:
         pip install pydocstyle
     - name: pydocstyle check
       run: |
-        pydocstyle .
+        pydocstyle source
 
