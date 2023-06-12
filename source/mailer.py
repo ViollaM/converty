@@ -38,6 +38,7 @@ def send_email(server, sender, address, filename):
     msg["From"] = sender
     msg["To"] = address
     msg["Subject"] = "Processed files from Converty Bot"
+    path_to_file = filename.split("/")
     ftype, encoding = mimetypes.guess_type(filename)
     file_type, subtype = ftype.split("/")
     with open(f'{filename}', mode="rb") as f:
@@ -54,6 +55,6 @@ def send_email(server, sender, address, filename):
                 file = MIMEBase(file_type, subtype)
                 file.set_payload(f.read())
                 encoders.encode_base64(file)
-    file.add_header('content-disposition', 'attachment', filename=filename)
+    file.add_header('content-disposition', 'attachment', filename=path_to_file[-1])
     msg.attach(file)
     server.sendmail(sender, address, msg.as_string())

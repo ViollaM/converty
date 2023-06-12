@@ -1,6 +1,7 @@
 import psycopg2
 import os
 
+
 def db_connect(psql_config):
     """Makes connection to postgres server
 
@@ -21,6 +22,7 @@ def db_connect(psql_config):
     except Exception as _ex:
         print(f'Connection to the PostgreSQL failed: {_ex}\n', flush=True)
     return None
+
 
 def db_migrate(db):
     """Applies DB migrations if needed
@@ -59,6 +61,7 @@ def db_migrate(db):
 
     db.commit()
 
+
 def get_migration_num(version: str) -> int:
     """Return version integer conversation
 
@@ -69,6 +72,7 @@ def get_migration_num(version: str) -> int:
     nums = [int(x) for x in version.split(".")]
     return nums[0]*10000 + nums[1] * 100 + nums[2]
 
+
 def db_write_feedback(db, comment: str):
     """Write comment to db
 
@@ -78,3 +82,40 @@ def db_write_feedback(db, comment: str):
     curr = db.cursor()
     curr.execute("insert into feedback (message) values (%s)", [comment])
     db.commit()
+
+
+def db_write_email(db, userid: int, email: str):
+    """Write comment to db
+
+    :param db: postgres db connection
+    :param comment: user's feedback about service
+    """
+    curr = db.cursor()
+    curr.execute("insert into user_email (userid, email) values (%s,%s) on conflict (userid)"+
+                 "do update set email = excluded.email", [userid, email])
+    db.commit()
+
+
+def db_delete_email(db, userid: int):
+    """Write comment to db
+
+    :param db: postgres db connection
+    :param comment: user's feedback about service
+    """
+    curr = db.cursor()
+    curr.execute("delete from user_email where userid = %s", [userid])
+    db.commit()
+
+
+def db_get_email(db, userid: int) -> str:
+    """Write comment to db
+
+    :param db: postgres db connection
+    :param comment: user's feedback about service
+    """
+    curr = db.cursor()
+    curr.execute("select email from user_email where userid = %s", [userid])
+    email = curr.fetchone()
+    if email is None:
+        return ""
+    return email[0]

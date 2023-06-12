@@ -25,12 +25,15 @@ from localization import (
 
 from db_manager import (
     db_connect,
-    db_write_feedback
+    db_write_feedback,
+    db_write_email,
+    db_delete_email,
+    db_get_email
 )
 
 from mailer import (
     smpt_connect,
-    send_email
+    send_email,
 )
 
 config = configparser.ConfigParser()
@@ -84,6 +87,7 @@ async def handle_stop(msg: types.Message):
     :type msg: aiogram.types.Message
     """
     shutil.rmtree(f"storage/{msg.from_user.id}", ignore_errors=True)
+    db_delete_email(db, msg.from_user.id)
     await msg.answer(_("Goodbye, dear {fname}").format(fname=msg.from_user.first_name))
 
 
@@ -95,9 +99,10 @@ async def handle_make(msg: types.Message):
     :type msg: aiogram.types.Message
     """
     text = msg.text.split()
-    if len(text) != 2:
+    if len(text) < 2:
         return await msg.answer(_("Please specify one convertation format"))
     format = text[1]
+    send_on_mail = len(text) > 2 and text[2] == "mail" 
     if format not in supported_conversion_formats:
         return await msg.answer(_("Oops, this format is not supported yet 😔️️️\n"
                                   "Choose supported one from: {formats}").format(formats=', '.join(map(str, supported_conversion_formats))))
@@ -121,6 +126,10 @@ async def handle_make(msg: types.Message):
             output = open(file_path, "rb")
             await bot.send_document(msg.chat.id, output)
             output.close()
+            if send_on_mail:
+                email = db_get_email(db, msg.from_user.id)
+                if email != "":
+                    send_email(smtp, config["Smtp"]["Login"], email, file_path)
         else:
             media_group = []
             outputs = {}
@@ -224,6 +233,16 @@ async def handle_lang(msg: types.Message):
         await msg.answer(_("Thanks for your feedback!"))
     else:
         await msg.answer(_("Write something please"))
+
+@dp.message_handler(commands=['sendmail'])
+async def handle_lang(msg: types.Message):
+    """Make feedback about bot"""
+    text = msg.text.split()
+    if len(text) > 1:
+        db_write_email(db, msg.from_user.id, text[1])
+        await msg.answer(_("Email updated!"))
+    else:
+        await msg.answer(_("Write your email, please"))
 
 
 @dp.message_handler(content_types=['text'])
