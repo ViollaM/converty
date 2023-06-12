@@ -34,3 +34,16 @@
 ## Статическая документация
 
 https://ViollaM.github.io/converty/
+
+## Документация для разработчиков
+
+Перед коммитом:
+1. ```doit codestyle```
+2. ```doit docstyle```
+3. ```doit docs```
+
+Компиляция .mo файлов для локализации:
+```doit mo```
+
+Выгонка документации:
+```sphinx-build docs _build```

@@ -42,7 +42,7 @@ def task_mo():
 
 
 def task_docs():
-    """Make html documantation"""
+    """Make html documentation"""
     return {'actions': ['sphinx-build docs _build'],
             'file_dep': glob.glob("source/*.py"),
             'task_dep': ['mo']
