@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-27 15:16+0300\n"
+"POT-Creation-Date: 2023-06-12 22:55+0300\n"
 "PO-Revision-Date: 2023-05-27 14:51+0300\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: s02220323@gse.cs.msu.ru\n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: source/telegram_bot.py:61
+#: source/telegram_bot.py:77
 msgid ""
 "Hi, dear {fname}, my name is Converty and I am file converter bot 😎\n"
 "Use /help command to find out what I can do\n"
@@ -27,15 +27,15 @@ msgstr ""
 "conversion de fichiers 😎\n"
 "Utilisez la commande / help pour savoir ce que je peux faire\n"
 
-#: source/telegram_bot.py:73
+#: source/telegram_bot.py:90
 msgid "Goodbye, dear {fname}"
 msgstr "À bientôt, cher {fname}"
 
-#: source/telegram_bot.py:85
+#: source/telegram_bot.py:102
 msgid "Please specify one convertation format"
 msgstr "Spécifiez un format de conversion s'il tu plait"
 
-#: source/telegram_bot.py:88
+#: source/telegram_bot.py:106
 msgid ""
 "Oops, this format is not supported yet 😔️️️\n"
 "Choose supported one from: {formats}"
@@ -43,19 +43,19 @@ msgstr ""
 "Oups, ce format n'est pas encore supporté 😔️️️\n"
 "Choisissez l'un des formats pris en charge: {formats}"
 
-#: source/telegram_bot.py:126
+#: source/telegram_bot.py:149
 msgid "Something went wrong, please try again later"
 msgstr "Quelque chose s'est mal passé, veuillez réessayer plus tard"
 
-#: source/telegram_bot.py:137
+#: source/telegram_bot.py:160
 msgid "All uploaded files deleted"
 msgstr "Tous les fichiers téléchargés supprimés"
 
-#: source/telegram_bot.py:145
+#: source/telegram_bot.py:168
 msgid "Please specify one language"
 msgstr "Spécifiez une langue s'il tu plait"
 
-#: source/telegram_bot.py:148
+#: source/telegram_bot.py:171
 msgid ""
 "Unfortunately, this language is not supported yet 😔️️️\n"
 "Choose supported one from: {langs}"
@@ -63,11 +63,11 @@ msgstr ""
 "Malheureusement, cette langue n'est pas encore prise en charge 😔️️️\n"
 "Choisissez celui pris en charge parmi: {langs}"
 
-#: source/telegram_bot.py:151
+#: source/telegram_bot.py:174
 msgid "Language successfully changed"
 msgstr "La langue a été modifiée avec succès"
 
-#: source/telegram_bot.py:164
+#: source/telegram_bot.py:187
 msgid ""
 "Use commands:\n"
 "/start to launch the bot\n"
@@ -75,20 +75,13 @@ msgid ""
 "/make <format> to convert files into format\n"
 "/reset to forget all uploaded files\n"
 "/lang to change language\n"
+"/feedback to write us\n"
+"/sendmail to add the email address\n"
 "/help to see this message or\n"
 "/help <command> to see additional information about chosen command\n"
 msgstr ""
-"Utiliser les commandes:\n"
-"/start pour lancer le bot\n"
-"/stop pour arrêter le bot\n"
-"/make <format> pour convertir des fichiers au format\n"
-"/reset pour oublier tous les fichiers téléchargés\n"
-"/lang pour changer de langue\n"
-"/help pour voir ce message ou\n"
-"/help <command> pour voir des informations supplémentaires sur la "
-"commande choisie\n"
 
-#: source/telegram_bot.py:175
+#: source/telegram_bot.py:200
 msgid ""
 "Supported formats: {formats}\n"
 "\n"
@@ -118,11 +111,11 @@ msgstr ""
 "L'option Images ne peut extraire des images que d'un seul fichier pdf à "
 "la fois,renvoie toutes les pages sous forme de fichiers png."
 
-#: source/telegram_bot.py:184
+#: source/telegram_bot.py:210
 msgid "Launching bot"
 msgstr "Lancement du bot"
 
-#: source/telegram_bot.py:186
+#: source/telegram_bot.py:212
 msgid ""
 "Stopping bot, all uploaded files will be deleted\n"
 "You'll need to use command /start to resume the work with bot"
@@ -130,27 +123,72 @@ msgstr ""
 "Arrêt du bot, tous les fichiers téléchargés seront supprimés\n"
 "Tu dois utiliser commande /start pour reprendre le travail avec le bot"
 
-#: source/telegram_bot.py:189
+#: source/telegram_bot.py:215
 msgid "Delete all uploaded files"
 msgstr "Supprimer tous les fichiers téléchargés"
 
-#: source/telegram_bot.py:191
+#: source/telegram_bot.py:217
 msgid "Changes bot language, supported languages: {langs}"
 msgstr "Change la langue du bot, langues prises en charge: {langs}"
 
-#: source/telegram_bot.py:193
+#: source/telegram_bot.py:219
+msgid "Write a feedback about our service"
+msgstr "Écrivez un commentaire sur notre service"
+
+#: source/telegram_bot.py:221
+msgid "Add your email address to get the processed files on it"
+msgstr "Ajoutez votre adresse e-mail pour obtenir les fichiers traités dessus"
+
+#: source/telegram_bot.py:223
 msgid "I don't recognize this command"
 msgstr "Je ne reconnais pas cette commande"
 
-#: source/telegram_bot.py:195
+#: source/telegram_bot.py:225
 msgid "Please specify one command"
 msgstr "Spécifiez une commande s'il tu plait"
 
-#: source/telegram_bot.py:218
+#: source/telegram_bot.py:235
+msgid "Thanks for your feedback!"
+msgstr "Merci pour vos commentaires!"
+
+#: source/telegram_bot.py:237
+msgid "Write something please"
+msgstr "Écrivez quelque chose s'il vous plaît"
+
+#: source/telegram_bot.py:246
+msgid "Email updated!"
+msgstr "E-mail mis à jour !"
+
+#: source/telegram_bot.py:248
+msgid "Write your email, please"
+msgstr "Écrivez votre e-mail, s'il vous plaît"
+
+#: source/telegram_bot.py:270
 msgid "Photo uploaded!"
 msgstr "Photo téléchargée!"
 
-#: source/telegram_bot.py:234
+#: source/telegram_bot.py:286
 msgid "Document uploaded!"
 msgstr "Document téléchargé!"
+
+#~ msgid ""
+#~ "Use commands:\n"
+#~ "/start to launch the bot\n"
+#~ "/stop to stop the bot\n"
+#~ "/make <format> to convert files into format\n"
+#~ "/reset to forget all uploaded files\n"
+#~ "/lang to change language\n"
+#~ "/help to see this message or\n"
+#~ "/help <command> to see additional information about chosen command\n"
+#~ msgstr ""
+#~ "Utiliser les commandes:\n"
+#~ "/start pour lancer le bot\n"
+#~ "/stop pour arrêter le bot\n"
+#~ "/make <format> pour convertir des fichiers au format\n"
+#~ "/reset pour oublier tous les fichiers téléchargés\n"
+#~ "/lang pour changer de langue\n"
+#~ "/help pour voir ce message ou\n"
+#~ "/help <command> pour voir des "
+#~ "informations supplémentaires sur la commande"
+#~ " choisie\n"
 

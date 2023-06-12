@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-27 15:16+0300\n"
+"POT-Creation-Date: 2023-06-12 22:55+0300\n"
 "PO-Revision-Date: 2023-05-27 13:06+0300\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: s02220323@gse.cs.msu.ru\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: source/telegram_bot.py:61
+#: source/telegram_bot.py:77
 msgid ""
 "Hi, dear {fname}, my name is Converty and I am file converter bot 😎\n"
 "Use /help command to find out what I can do\n"
@@ -26,15 +26,15 @@ msgstr ""
 "Hi, dear {fname}, my name is Converty and I am file converter bot 😎\n"
 "Use /help command to find out what I can do\n"
 
-#: source/telegram_bot.py:73
+#: source/telegram_bot.py:90
 msgid "Goodbye, dear {fname}"
 msgstr "Goodbye, dear {fname}"
 
-#: source/telegram_bot.py:85
+#: source/telegram_bot.py:102
 msgid "Please specify one convertation format"
 msgstr "Please specify one convertation format"
 
-#: source/telegram_bot.py:88
+#: source/telegram_bot.py:106
 msgid ""
 "Oops, this format is not supported yet 😔️️️\n"
 "Choose supported one from: {formats}"
@@ -42,19 +42,19 @@ msgstr ""
 "Oops, this format is not supported yet 😔️️️\n"
 "Choose supported one from: {formats}"
 
-#: source/telegram_bot.py:126
+#: source/telegram_bot.py:149
 msgid "Something went wrong, please try again later"
 msgstr "Something went wrong, please try again later"
 
-#: source/telegram_bot.py:137
+#: source/telegram_bot.py:160
 msgid "All uploaded files deleted"
 msgstr "All uploaded files deleted"
 
-#: source/telegram_bot.py:145
+#: source/telegram_bot.py:168
 msgid "Please specify one language"
 msgstr "Please specify one language"
 
-#: source/telegram_bot.py:148
+#: source/telegram_bot.py:171
 msgid ""
 "Unfortunately, this language is not supported yet 😔️️️\n"
 "Choose supported one from: {langs}"
@@ -62,11 +62,11 @@ msgstr ""
 "Unfortunately, this language is not supported yet 😔️️️\n"
 "Choose supported one from: {langs}"
 
-#: source/telegram_bot.py:151
+#: source/telegram_bot.py:174
 msgid "Language successfully changed"
 msgstr "Language successfully changed"
 
-#: source/telegram_bot.py:164
+#: source/telegram_bot.py:187
 msgid ""
 "Use commands:\n"
 "/start to launch the bot\n"
@@ -74,19 +74,13 @@ msgid ""
 "/make <format> to convert files into format\n"
 "/reset to forget all uploaded files\n"
 "/lang to change language\n"
+"/feedback to write us\n"
+"/sendmail to add the email address\n"
 "/help to see this message or\n"
 "/help <command> to see additional information about chosen command\n"
 msgstr ""
-"Use commands:\n"
-"/start to launch the bot\n"
-"/stop to stop the bot\n"
-"/make <format> to convert files into format\n"
-"/reset to forget all uploaded files\n"
-"/lang to change language\n"
-"/help to see this message or\n"
-"/help <command> to see additional information about chosen command\n"
 
-#: source/telegram_bot.py:175
+#: source/telegram_bot.py:200
 msgid ""
 "Supported formats: {formats}\n"
 "\n"
@@ -116,11 +110,11 @@ msgstr ""
 "Images option can only extract images from one pdf file at a time, will "
 "return all pages as png files."
 
-#: source/telegram_bot.py:184
+#: source/telegram_bot.py:210
 msgid "Launching bot"
 msgstr "Launching bot"
 
-#: source/telegram_bot.py:186
+#: source/telegram_bot.py:212
 msgid ""
 "Stopping bot, all uploaded files will be deleted\n"
 "You'll need to use command /start to resume the work with bot"
@@ -128,27 +122,70 @@ msgstr ""
 "Stopping bot, all uploaded files will be deleted\n"
 "You'll need to use command /start to resume the work with bot"
 
-#: source/telegram_bot.py:189
+#: source/telegram_bot.py:215
 msgid "Delete all uploaded files"
 msgstr "Delete all uploaded files"
 
-#: source/telegram_bot.py:191
+#: source/telegram_bot.py:217
 msgid "Changes bot language, supported languages: {langs}"
 msgstr "Changes bot language, supported languages: {langs}"
 
-#: source/telegram_bot.py:193
+#: source/telegram_bot.py:219
+msgid "Write a feedback about our service"
+msgstr "Write a feedback about our service"
+
+#: source/telegram_bot.py:221
+msgid "Add your email address to get the processed files on it"
+msgstr "Add your email address to get the processed files on it"
+
+#: source/telegram_bot.py:223
 msgid "I don't recognize this command"
 msgstr "I don't recognize this command"
 
-#: source/telegram_bot.py:195
+#: source/telegram_bot.py:225
 msgid "Please specify one command"
 msgstr "Please specify one command"
 
-#: source/telegram_bot.py:218
+#: source/telegram_bot.py:235
+msgid "Thanks for your feedback!"
+msgstr "Thanks for your feedback!"
+
+#: source/telegram_bot.py:237
+msgid "Write something please"
+msgstr "Write something please"
+
+#: source/telegram_bot.py:246
+msgid "Email updated!"
+msgstr "Email updated!"
+
+#: source/telegram_bot.py:248
+msgid "Write your email, please"
+msgstr "Write your email, please"
+
+#: source/telegram_bot.py:270
 msgid "Photo uploaded!"
 msgstr "Photo uploaded!"
 
-#: source/telegram_bot.py:234
+#: source/telegram_bot.py:286
 msgid "Document uploaded!"
 msgstr "Document uploaded!"
+
+#~ msgid ""
+#~ "Use commands:\n"
+#~ "/start to launch the bot\n"
+#~ "/stop to stop the bot\n"
+#~ "/make <format> to convert files into format\n"
+#~ "/reset to forget all uploaded files\n"
+#~ "/lang to change language\n"
+#~ "/help to see this message or\n"
+#~ "/help <command> to see additional information about chosen command\n"
+#~ msgstr ""
+#~ "Use commands:\n"
+#~ "/start to launch the bot\n"
+#~ "/stop to stop the bot\n"
+#~ "/make <format> to convert files into format\n"
+#~ "/reset to forget all uploaded files\n"
+#~ "/lang to change language\n"
+#~ "/help to see this message or\n"
+#~ "/help <command> to see additional information about chosen command\n"
 

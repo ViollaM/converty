@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: m.y.alex@outlook.com\n"
-"POT-Creation-Date: 2023-05-27 15:16+0300\n"
+"POT-Creation-Date: 2023-06-12 22:55+0300\n"
 "PO-Revision-Date: 2023-05-26 22:38+0300\n"
 "Last-Translator: Margarita <m.y.alex@outlook.com>\n"
 "Language: ru\n"
@@ -17,9 +17,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: source/telegram_bot.py:61
+#: source/telegram_bot.py:77
 msgid ""
 "Hi, dear {fname}, my name is Converty and I am file converter bot 😎\n"
 "Use /help command to find out what I can do\n"
@@ -27,15 +27,15 @@ msgstr ""
 "Привет, {fname}, меня зовут Converty и я бот-конвертер файлов 😎\n"
 "Используй команду /help, чтобы узнать, что я умею\n"
 
-#: source/telegram_bot.py:73
+#: source/telegram_bot.py:90
 msgid "Goodbye, dear {fname}"
 msgstr "Пока, {fname}"
 
-#: source/telegram_bot.py:85
+#: source/telegram_bot.py:102
 msgid "Please specify one convertation format"
 msgstr "Пожалуйста, выбери один формат конвертации"
 
-#: source/telegram_bot.py:88
+#: source/telegram_bot.py:106
 msgid ""
 "Oops, this format is not supported yet 😔️️️\n"
 "Choose supported one from: {formats}"
@@ -43,19 +43,19 @@ msgstr ""
 "Упс, этот формат еще не поддерживается 😔️️️\n"
 "Выбери один из поддерживаемых форматов из: {formats}"
 
-#: source/telegram_bot.py:126
+#: source/telegram_bot.py:149
 msgid "Something went wrong, please try again later"
 msgstr "Что-то пошло не так, пожалуйста, попробуй еще раз позже"
 
-#: source/telegram_bot.py:137
+#: source/telegram_bot.py:160
 msgid "All uploaded files deleted"
 msgstr "Все загруженные файлы удалены"
 
-#: source/telegram_bot.py:145
+#: source/telegram_bot.py:168
 msgid "Please specify one language"
 msgstr "Пожалуйста, выбери один язык"
 
-#: source/telegram_bot.py:148
+#: source/telegram_bot.py:171
 msgid ""
 "Unfortunately, this language is not supported yet 😔️️️\n"
 "Choose supported one from: {langs}"
@@ -63,11 +63,11 @@ msgstr ""
 "К сожалению, этот язык еще не поддерживается 😔️️️\n"
 "Выбери один из поддерживаемых из: {langs}"
 
-#: source/telegram_bot.py:151
+#: source/telegram_bot.py:174
 msgid "Language successfully changed"
 msgstr "Язык сменен успешно"
 
-#: source/telegram_bot.py:164
+#: source/telegram_bot.py:187
 msgid ""
 "Use commands:\n"
 "/start to launch the bot\n"
@@ -75,20 +75,13 @@ msgid ""
 "/make <format> to convert files into format\n"
 "/reset to forget all uploaded files\n"
 "/lang to change language\n"
+"/feedback to write us\n"
+"/sendmail to add the email address\n"
 "/help to see this message or\n"
 "/help <command> to see additional information about chosen command\n"
 msgstr ""
-"Используй команды:\n"
-"/start для запуска бота\n"
-"/stop для остановки бота\n"
-"/make <формат> для конвертации файлов в заданный формат\n"
-"/reset для сброса всех загруженных файлов\n"
-"/lang для смены языка\n"
-"/help чтобы увидеть это сообщение или\n"
-"/help <команда> чтобы увидеть дополнительную информацию о выбранной "
-"команде\n"
 
-#: source/telegram_bot.py:175
+#: source/telegram_bot.py:200
 msgid ""
 "Supported formats: {formats}\n"
 "\n"
@@ -118,11 +111,11 @@ msgstr ""
 "Опция images может извлекать изображения только из одного pdf файла за "
 "раз, вернет все страницы документа как png файлы."
 
-#: source/telegram_bot.py:184
+#: source/telegram_bot.py:210
 msgid "Launching bot"
 msgstr "Запуск бота"
 
-#: source/telegram_bot.py:186
+#: source/telegram_bot.py:212
 msgid ""
 "Stopping bot, all uploaded files will be deleted\n"
 "You'll need to use command /start to resume the work with bot"
@@ -130,27 +123,71 @@ msgstr ""
 "Остановка бота, все загруженные файлы будут удалены\n"
 "Для возобновления работы с ботом нужно будет использовать команду /start"
 
-#: source/telegram_bot.py:189
+#: source/telegram_bot.py:215
 msgid "Delete all uploaded files"
 msgstr "Удаляет все загруженные файлы"
 
-#: source/telegram_bot.py:191
+#: source/telegram_bot.py:217
 msgid "Changes bot language, supported languages: {langs}"
 msgstr "Меняет язык бота, поддерживаемые языки: {langs}"
 
-#: source/telegram_bot.py:193
+#: source/telegram_bot.py:219
+msgid "Write a feedback about our service"
+msgstr "Напишите отзыв о нашем сервисе"
+
+#: source/telegram_bot.py:221
+msgid "Add your email address to get the processed files on it"
+msgstr "Добавьте электронную почту для получения файлов"
+
+#: source/telegram_bot.py:223
 msgid "I don't recognize this command"
 msgstr "Я не знаю такой команды"
 
-#: source/telegram_bot.py:195
+#: source/telegram_bot.py:225
 msgid "Please specify one command"
 msgstr "Пожалуйста, выбери одну команду"
 
-#: source/telegram_bot.py:218
+#: source/telegram_bot.py:235
+msgid "Thanks for your feedback!"
+msgstr "Спасибо за ваш отзыв!"
+
+#: source/telegram_bot.py:237
+msgid "Write something please"
+msgstr "Напишите что-нибудь, пожалуйста"
+
+#: source/telegram_bot.py:246
+msgid "Email updated!"
+msgstr "Адрес электронной почты успешно изменен!"
+
+#: source/telegram_bot.py:248
+msgid "Write your email, please"
+msgstr "Напишите, пожалуйста, адрес вашей электронной почты"
+
+#: source/telegram_bot.py:270
 msgid "Photo uploaded!"
 msgstr "Фото загружено!"
 
-#: source/telegram_bot.py:234
+#: source/telegram_bot.py:286
 msgid "Document uploaded!"
 msgstr "Документ загружен!"
+
+#~ msgid ""
+#~ "Use commands:\n"
+#~ "/start to launch the bot\n"
+#~ "/stop to stop the bot\n"
+#~ "/make <format> to convert files into format\n"
+#~ "/reset to forget all uploaded files\n"
+#~ "/lang to change language\n"
+#~ "/help to see this message or\n"
+#~ "/help <command> to see additional information about chosen command\n"
+#~ msgstr ""
+#~ "Используй команды:\n"
+#~ "/start для запуска бота\n"
+#~ "/stop для остановки бота\n"
+#~ "/make <формат> для конвертации файлов в заданный формат\n"
+#~ "/reset для сброса всех загруженных файлов\n"
+#~ "/lang для смены языка\n"
+#~ "/help чтобы увидеть это сообщение или\n"
+#~ "/help <команда> чтобы увидеть дополнительную"
+#~ " информацию о выбранной команде\n"
 
