@@ -42,7 +42,7 @@ def db_migrate(db):
     if res is None:
         last_version = "0.0.0"
     else:
-        last_version = res[0]   
+        last_version = res[0]
     print(f'Current migration version: {last_version}', flush=True)
     last_version_no = get_migration_num(last_version)
 
@@ -50,14 +50,14 @@ def db_migrate(db):
     sql_files = sorted(sql_files, key=lambda file: get_migration_num(file.split("-")[0]))
     for sql_file in sql_files:
         version, comment = sql_file.split("-")
-        comment = comment.removesuffix(".sql") 
+        comment = comment.removesuffix(".sql")
         if get_migration_num(version) > last_version_no:
-             file = open("migrations/"+sql_file, mode='r')
-             sql_query = file.read()
-             file.close()
-             curr.execute(sql_query)
-             curr.execute("insert into migrate_history (version, comment) values (%s,%s)", [version, comment])
-             print(f'Migration {version} applied', flush=True)
+            file = open("migrations/" + sql_file, mode='r')
+            sql_query = file.read()
+            file.close()
+            curr.execute(sql_query)
+            curr.execute("insert into migrate_history (version, comment) values (%s,%s)", [version, comment])
+            print(f'Migration {version} applied', flush=True)
 
     db.commit()
 
@@ -70,7 +70,7 @@ def get_migration_num(version: str) -> int:
     :rtype: int
     """
     nums = [int(x) for x in version.split(".")]
-    return nums[0]*10000 + nums[1] * 100 + nums[2]
+    return nums[0] * 10000 + nums[1] * 100 + nums[2]
 
 
 def db_write_feedback(db, comment: str):
@@ -85,22 +85,23 @@ def db_write_feedback(db, comment: str):
 
 
 def db_write_email(db, userid: int, email: str):
-    """Write comment to db
+    """Write user's email to db
 
     :param db: postgres db connection
-    :param comment: user's feedback about service
+    :param userid: user identifier
+    :param email: user email
     """
     curr = db.cursor()
-    curr.execute("insert into user_email (userid, email) values (%s,%s) on conflict (userid)"+
-                 "do update set email = excluded.email", [userid, email])
+    curr.execute("insert into user_email (userid, email) values (%s,%s) on conflict (userid) "
+                 + "do update set email = excluded.email", [userid, email])
     db.commit()
 
 
 def db_delete_email(db, userid: int):
-    """Write comment to db
+    """Delete user's email from db
 
     :param db: postgres db connection
-    :param comment: user's feedback about service
+    :param userid: user identifier
     """
     curr = db.cursor()
     curr.execute("delete from user_email where userid = %s", [userid])
@@ -108,10 +109,11 @@ def db_delete_email(db, userid: int):
 
 
 def db_get_email(db, userid: int) -> str:
-    """Write comment to db
+    """Get user's email from db
 
     :param db: postgres db connection
-    :param comment: user's feedback about service
+    :param userid: user identifier
+    :rtype: str
     """
     curr = db.cursor()
     curr.execute("select email from user_email where userid = %s", [userid])

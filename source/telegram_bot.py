@@ -102,7 +102,7 @@ async def handle_make(msg: types.Message):
     if len(text) < 2:
         return await msg.answer(_("Please specify one convertation format"))
     format = text[1]
-    send_on_mail = len(text) > 2 and text[2] == "mail" 
+    send_on_mail = len(text) > 2 and text[2] == "mail"
     if format not in supported_conversion_formats:
         return await msg.answer(_("Oops, this format is not supported yet 😔️️️\n"
                                   "Choose supported one from: {formats}").format(formats=', '.join(map(str, supported_conversion_formats))))
@@ -233,6 +233,7 @@ async def handle_lang(msg: types.Message):
         await msg.answer(_("Thanks for your feedback!"))
     else:
         await msg.answer(_("Write something please"))
+
 
 @dp.message_handler(commands=['sendmail'])
 async def handle_lang(msg: types.Message):

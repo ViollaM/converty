@@ -11,6 +11,7 @@ from email.mime.audio import MIMEAudio
 from email.mime.application import MIMEApplication
 from email.mime.base import MIMEBase
 
+
 def smpt_connect(smtp_config):
     """Makes connection to smtp server
 
@@ -33,7 +34,15 @@ def smpt_connect(smtp_config):
         print(f'Connection to the SMTP Server failed: {_ex}', flush=True)
     return None
 
-def send_email(server, sender, address, filename):
+
+def send_email(smtp, sender: str, address: str, filename: str):
+    """Sends email with processed file to address
+
+    :param smtp: smtp connection
+    :param sender: from address
+    :param address: to address
+    :param filename: path to output file
+    """
     msg = MIMEMultipart()
     msg["From"] = sender
     msg["To"] = address
@@ -57,4 +66,4 @@ def send_email(server, sender, address, filename):
                 encoders.encode_base64(file)
     file.add_header('content-disposition', 'attachment', filename=path_to_file[-1])
     msg.attach(file)
-    server.sendmail(sender, address, msg.as_string())
+    smtp.sendmail(sender, address, msg.as_string())
