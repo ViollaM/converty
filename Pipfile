@@ -7,6 +7,8 @@ name = "pypi"
 aiogram = "*"
 Pillow = "*"
 PyMuPDF = "*"
+psycopg2-binary = "*"
+pyfiglet = "*"
 
 [dev-packages]
 sphinx = "*"
