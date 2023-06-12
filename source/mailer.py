@@ -1,8 +1,5 @@
 import smtplib
-import os
-import time
 import mimetypes
-from pyfiglet import Figlet
 from email import encoders
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart

@@ -2,7 +2,6 @@
 import os
 import signal
 import shutil
-import psycopg2
 import configparser
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
@@ -191,7 +190,8 @@ async def handle_help(msg: types.Message):
                          "/make <format> to convert files into format\n"
                          "/reset to forget all uploaded files\n"
                          "/lang to change language\n"
-                         "/feedback to write us"
+                         "/feedback to write us\n"
+                         "/sendmail to add the email address\n"
                          "/help to see this message or\n"
                          "/help <command> to see additional information about chosen command\n"))
         case 2:
@@ -217,6 +217,8 @@ async def handle_help(msg: types.Message):
                     message = _("Changes bot language, supported languages: {langs}").format(langs=', '.join(map(str, supported_languages)))
                 case "feedback":
                     message = _("Write a feedback about our service")
+                case "sendmail":
+                    message = _("Add your email address to get the processed files on it")
                 case _:
                     message = _("I don't recognize this command")
         case _:
@@ -225,7 +227,7 @@ async def handle_help(msg: types.Message):
 
 
 @dp.message_handler(commands=['feedback'])
-async def handle_lang(msg: types.Message):
+async def handle_feedback(msg: types.Message):
     """Make feedback about bot"""
     text = msg.text.split()
     if len(text) > 1:
@@ -236,7 +238,7 @@ async def handle_lang(msg: types.Message):
 
 
 @dp.message_handler(commands=['sendmail'])
-async def handle_lang(msg: types.Message):
+async def handle_sendmail(msg: types.Message):
     """Make feedback about bot"""
     text = msg.text.split()
     if len(text) > 1:
