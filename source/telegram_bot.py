@@ -98,7 +98,7 @@ async def handle_make(msg: types.Message):
     :type msg: aiogram.types.Message
     """
     text = msg.text.split()
-    if len(text) < 2:
+    if len(text) != 1 and len(text) > 3:
         return await msg.answer(_("Please specify one convertation format"))
     format = text[1]
     send_on_mail = len(text) > 2 and text[2] == "mail"
