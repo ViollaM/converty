@@ -1,3 +1,4 @@
+"""Mailer module"""
 import smtplib
 import mimetypes
 from email import encoders

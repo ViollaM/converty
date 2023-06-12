@@ -1,3 +1,4 @@
+"""DB_manager module"""
 import psycopg2
 import os
 
