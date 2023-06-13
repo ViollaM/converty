@@ -16,6 +16,9 @@ sphinx = "*"
 babel = "*"
 flake8 = "*"
 pydocstyle = "*"
+pytest = "*"
+asyncio = "*"
+pytest-asyncio = "*"
 
 [requires]
 python_version = "3.11"
