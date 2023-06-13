@@ -36,7 +36,7 @@ from mailer import (
 )
 
 config = configparser.ConfigParser()
-config.read("config/converty_config.ini")
+config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), "config/converty_config.ini"))
 
 db = db_connect(config["Postgres"])
 smtp = smpt_connect(config["Smtp"])

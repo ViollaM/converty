@@ -16,6 +16,8 @@ language = 'English'
 
 sys.path.insert(0, os.path.abspath('../source'))
 
+autodoc_mock_imports = ["psycopg2"]
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
