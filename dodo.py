@@ -8,7 +8,7 @@ def task_gitclean():
 
 def task_test():
     """Run tests"""
-    return {'actions': ['python3 -m unittest -v'], }
+    return {'actions': ['make test'], }
 
 
 def task_codestyle():
